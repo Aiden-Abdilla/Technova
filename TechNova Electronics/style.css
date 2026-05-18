@@ -35,7 +35,7 @@ header {
 /* We hide this by default so the button can toggle it on all screens */
 /* Navigation Links - Side by Side */
 nav {
-    display: flex;
+    display: none;
     flex-direction: row; /* Forces side-by-side */
     gap: 30px; /* Adds space between the links */
     align-items: center;
