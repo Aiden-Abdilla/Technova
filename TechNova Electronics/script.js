@@ -39,7 +39,7 @@ $(document).ready(function() {
     // If the user resizes the window back to desktop size, 
     // this ensures the navigation menu is forced back to visible.
     $(window).resize(function() {
-        if ($(window).width() >= 900) {
+        if ($(window).width() >= 600) {
             $("#main-nav").removeAttr("style"); 
         }
     });
