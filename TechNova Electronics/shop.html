@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - TechNova Electronics</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img src="images/logo.jpg" alt="Logo" class="logo-img">
+            </a>
+        </div>
+        
+        <button id="menu-toggle">Menu</button> 
+        
+        <nav id="main-nav">
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+    
+    <main>
+        <h1 style="text-align: center; margin-top: 20px;">Our Products</h1>
+        
+        <div class="product-grid">
+            
+            <div class="product">
+                <img src="images/headphones.jpg" alt="Wireless Headphones">
+                <h3>Headphones</h3>
+                <p>€150</p>
+                <button class="cart-btn" onclick="addToCart()">Add to Cart</button>
+                <button class="info-btn" onclick="showInfo('info1')">Info</button>
+                <div id="info1" class="info-text">
+                    Experience high-fidelity sound with 40 hours of battery life and active noise cancellation.
+                </div>
+            </div>
+
+            <div class="product">
+                <img src="images/keyboard.jpg" alt="Mechanical Keyboard">
+                <h3>Keyboard</h3>
+                <p>€90</p>
+                <button class="cart-btn" onclick="addToCart()">Add to Cart</button>
+                <button class="info-btn" onclick="showInfo('info2')">Info</button>
+                <div id="info2" class="info-text">
+                    Mechanical RGB tactile keyboard with customizable switches for the ultimate typing experience.
+                </div>
+            </div>
+
+            <div class="product">
+                <img src="images/smartwatch.jpg" alt="Pro Smartwatch">
+                <h3>Smartwatch</h3>
+                <p>€220</p>
+                <button class="cart-btn" onclick="addToCart()">Add to Cart</button>
+                <button class="info-btn" onclick="showInfo('info3')">Info</button>
+                <div id="info3" class="info-text">
+                    Track your fitness, heart rate, and sleep with 5ATM water resistance and GPS.
+                </div>
+            </div>
+
+            <div class="product">
+                <img src="images/speaker.jpg" alt="Bluetooth Speaker">
+                <h3>Speaker</h3>
+                <p>€60</p>
+                <button class="cart-btn" onclick="addToCart()">Add to Cart</button>
+                <button class="info-btn" onclick="showInfo('info4')">Info</button>
+                <div id="info4" class="info-text">
+                    Portable Bluetooth speaker with 360-degree sound and 12-hour playtime.
+                </div>
+            </div>
+
+            <div class="product">
+                <img src="images/gaming_pc.jpg" alt="High-End Gaming PC">
+                <h3>NovaStrike Gaming PC</h3>
+                <p>€3,899</p>
+                <button class="cart-btn" onclick="addToCart()">Add to Cart</button>
+                <button class="info-btn" onclick="showInfo('info5')">Info</button>
+                <div id="info5" class="info-text">
+                    RTX 5080, 32GB RAM, 1TB SSD. Built for ultimate performance and 4K gaming.
+                </div>
+            </div>
+
+            <div class="product">
+                <img src="images/monitor.jpg" alt="Gaming Monitor">
+                <h3>UltraView 27" Monitor</h3>
+                <p>€250</p>
+                <button class="cart-btn" onclick="addToCart()">Add to Cart</button>
+                <button class="info-btn" onclick="showInfo('info6')">Info</button>
+                <div id="info6" class="info-text">
+                    144Hz Refresh Rate, 1ms Response Time, 4K Resolution IPS Panel.
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p> &copy; 2026 TechNova Electronics</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

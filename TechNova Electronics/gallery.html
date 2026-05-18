@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - TechNova Electronics</title>
+    <link rel="stylesheet" href="style.css">
+    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet" />
+    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="index.html">
+                <img src="images/logo.jpg" alt="TechNova Logo" class="logo-img">
+            </a>
+        </div>
+        
+        <button id="menu-toggle">Menu</button> 
+        
+        <nav id="main-nav">
+            <a href="index.html">Home</a>
+            <a href="shop.html">Shop</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+    
+    <main>
+        <h1 style="text-align: center; margin-top: 20px;">Product Gallery</h1>
+        <p style="text-align: center;">Click an image to expand it into full view.</p>
+        
+        <div class="product-grid">
+            
+            <div class="product">
+                <a href="images/gaming_pc.jpg" data-lightbox="tech-gallery" data-title="NovaStrike Gaming PC">
+                    <img src="images/gaming_pc.jpg" alt="Gaming PC">
+                </a>
+                <h3>NovaStrike PC</h3>
+            </div>
+
+            <div class="product">
+                <a href="images/monitor.jpg" data-lightbox="tech-gallery" data-title="UltraView 4K Monitor">
+                    <img src="images/monitor.jpg" alt="4K Monitor">
+                </a>
+                <h3>UltraView Monitor</h3>
+            </div>
+
+            <div class="product">
+                <a href="images/headphones.jpg" data-lightbox="tech-gallery" data-title="Wireless Gaming Headphones">
+                    <img src="images/headphones.jpg" alt="Headphones">
+                </a>
+                <h3>Wireless Headphones</h3>
+            </div>
+
+            <div class="product">
+                <a href="images/keyboard.jpg" data-lightbox="tech-gallery" data-title="Mechanical RGB Keyboard">
+                    <img src="images/keyboard.jpg" alt="Keyboard">
+                </a>
+                <h3>Mechanical Keyboard</h3>
+            </div>
+
+            <div class="product">
+                <a href="images/smartwatch.jpg" data-lightbox="tech-gallery" data-title="NovaPro Smartwatch">
+                    <img src="images/smartwatch.jpg" alt="Smartwatch">
+                </a>
+                <h3>NovaPro Watch</h3>
+            </div>
+
+            <div class="product">
+                <a href="images/speaker.jpg" data-lightbox="tech-gallery" data-title="Portable Bluetooth Speaker">
+                    <img src="images/speaker.jpg" alt="Speaker">
+                </a>
+                <h3>Bluetooth Speaker</h3>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 TechNova Electronics. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+    
+    <script src="script.js"></script>
+</body>
+</html>
