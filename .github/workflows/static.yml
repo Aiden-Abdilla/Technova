@@ -2,7 +2,7 @@ name: Deploy Static Content to Pages
 
 on:
   push:
-    branches: ["main"] # Change to "master" if your default branch is named master
+    branches: ["main", "master"] # This covers both "main" and "master" branch names automatically
 
 permissions:
   contents: read
@@ -18,7 +18,6 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-size: ubuntu-latest
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -30,7 +29,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          # This tells GitHub exactly which folder to look into!
+          # This tells GitHub exactly which folder to look into
           path: './TechNova Electronics' 
           
       - name: Deploy to GitHub Pages
