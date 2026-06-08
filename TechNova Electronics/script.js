@@ -69,7 +69,11 @@ $(document).ready(function () {
         });
 
         /*
-         * Check that the email address has a basic valid format.
+         * Check that the email contains:
+         * - Text before the @ symbol
+         * - An @ symbol
+         * - A valid domain name
+         * - A domain extension of at least two letters
          */
         if (userEmail !== "" && !isValidEmail(userEmail)) {
             $("#user-email").addClass("is-invalid");
@@ -84,20 +88,19 @@ $(document).ready(function () {
             event.preventDefault();
 
             $("#form-error")
-                .text("Please complete all fields and enter a valid email address.")
+                .text(
+                    "Please complete all fields and enter a valid email address, " +
+                    "for example name@example.com."
+                )
                 .addClass("is-visible");
 
             return;
         }
 
-        /*
-         * Hide the error message when validation is successful.
-         */
+        /* Hide the error message when validation is successful */
         $("#form-error").removeClass("is-visible");
 
-        /*
-         * Create the mailto link using the submitted form information.
-         */
+        /* Create the mailto link using the submitted information */
         const emailBody =
             "Name: " + userName +
             "\nEmail: " + userEmail +
@@ -110,15 +113,11 @@ $(document).ready(function () {
             "&body=" +
             encodeURIComponent(emailBody);
 
-        /*
-         * Update the form action immediately before submission.
-         */
+        /* Update the form action immediately before submission */
         $(this).attr("action", cleanMailto);
     });
 
-    /*
-     * Remove error styling while the user corrects a field.
-     */
+    /* Remove error styling while the user corrects a field */
     $(".form-input").on("input", function () {
         const fieldValue = $(this).val().trim();
 
@@ -127,17 +126,19 @@ $(document).ready(function () {
         }
 
         /*
-         * Apply email validation while the email field is edited.
+         * Check the email format while the email field is edited.
          */
         if ($(this).attr("id") === "user-email") {
             if (fieldValue !== "" && !isValidEmail(fieldValue)) {
                 $(this).addClass("is-invalid");
+            } else if (isValidEmail(fieldValue)) {
+                $(this).removeClass("is-invalid");
             }
         }
 
         /*
-         * Hide the general error message once all fields contain
-         * information and the email address is valid.
+         * Hide the general error message once every field contains
+         * valid information.
          */
         const nameIsValid = $("#user-name").val().trim() !== "";
         const emailValue = $("#user-email").val().trim();
@@ -153,13 +154,17 @@ $(document).ready(function () {
 });
 
 /**
- * Checks whether an email address follows a basic valid format.
+ * Checks whether an email address contains an @ symbol,
+ * a valid domain and a domain extension.
  *
- * @param {string} email - The email address entered by the user.
- * @returns {boolean} True when the email format is valid.
- */
+ * Valid examples:
+ * name@gmail.com
+ * student@mcast.edu.mt
+ * support@abdilla.net
+ 
 function isValidEmail(email) {
-    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const emailPattern =
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
 
     return emailPattern.test(email);
 }
