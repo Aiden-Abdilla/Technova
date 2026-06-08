@@ -1,23 +1,32 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Contact Us - TechNova Electronics</title>
+
     <link rel="stylesheet" href="style.css">
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
+
 <body>
 
     <header>
         <div class="logo">
             <a href="index.html">
-                <img src="images/logo.jpg" alt="TechNova Logo" class="logo-img">
+                <img
+                    src="images/logo.jpg"
+                    alt="TechNova Logo"
+                    class="logo-img"
+                >
             </a>
         </div>
-        
-        <button id="menu-toggle">Menu</button>
-        
+
+        <button id="menu-toggle" type="button">Menu</button>
+
         <nav id="main-nav">
             <a href="index.html">Home</a>
             <a href="shop.html">Shop</a>
@@ -29,22 +38,49 @@
     <main>
         <div class="contact-container">
             <h1>Contact Us</h1>
-            <p>Have a question? Send us a message and we will get back to you as soon as possible.</p>
 
-            <form id="contact-form" action="mailto:info@abdilla.net" method="post" enctype="text/plain">
-                
+            <p>
+                Have a question? Send us a message and we will get back
+                to you as soon as possible.
+            </p>
+
+            <form
+                id="contact-form"
+                action="mailto:info@abdilla.net"
+                method="post"
+                enctype="text/plain"
+                novalidate
+            >
                 <label for="user-name">Full Name:</label>
-                <input type="text" id="user-name" name="name" class="form-input" placeholder="Your Name" required>
+                <input
+                    type="text"
+                    id="user-name"
+                    name="name"
+                    class="form-input"
+                    placeholder="Your Name"
+                >
 
                 <label for="user-email">Email Address:</label>
-                <input type="email" id="user-email" name="email" class="form-input" placeholder="Your Email" required>
+                <input
+                    type="email"
+                    id="user-email"
+                    name="email"
+                    class="form-input"
+                    placeholder="Your Email"
+                >
 
                 <label for="user-message">Message:</label>
-                <textarea id="user-message" name="message" class="form-input" rows="5" placeholder="Write your message here..." required></textarea>
+                <textarea
+                    id="user-message"
+                    name="message"
+                    class="form-input"
+                    rows="5"
+                    placeholder="Write your message here..."
+                ></textarea>
 
                 <button type="submit">Send Message</button>
-                
-                <div id="form-error" class="error-msg" style="display:none; color: #e74c3c; font-weight: bold; margin-top: 10px;">
+
+                <div id="form-error" class="error-msg" role="alert">
                     Please fill in all fields before submitting.
                 </div>
             </form>
@@ -52,9 +88,11 @@
     </main>
 
     <footer>
-        <p> &copy; 2026 TechNova Electronics</p>
+        <p>&copy; 2026 TechNova Electronics</p>
     </footer>
 
     <script src="script.js"></script>
+
 </body>
 </html>
+```
