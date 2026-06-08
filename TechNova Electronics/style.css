@@ -1,68 +1,71 @@
+```css
 /* Q3c: Apply Verdana font instead of default */
 body {
-    font-family: 'Verdana', sans-serif;
+    font-family: Verdana, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #ffffff;
     color: #333;
 }
 
-/* Q2b: Navigation Menu & Header */
+/* Q2b: Navigation Menu and Header */
 header {
     border-bottom: 2px solid #2c3e50;
     padding: 15px 5%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #fff;
-    position: relative; /* Crucial for absolute menu positioning */
+    background-color: #ffffff;
+    position: relative;
 }
 
 /* Logo Styling */
 .logo {
-    border: 2px solid #000;
+    border: 2px solid #000000;
     padding: 5px;
     display: inline-block;
 }
 
 .logo-img {
-    height: 50px; 
-    width: auto; 
+    height: 50px;
+    width: auto;
     display: block;
 }
 
-/* --- NAVIGATION MENU (Toggled State) --- */
-/* We hide this by default so the button can toggle it on all screens */
-/* Navigation Links - Side by Side */
+/* Navigation Menu */
 nav {
     display: none;
-    flex-direction: row; /* Forces side-by-side */
-    gap: 30px; /* Adds space between the links */
+    flex-direction: row;
+    gap: 30px;
     align-items: center;
+}
+
+/* Added and removed by jQuery */
+nav.is-open {
+    display: flex;
 }
 
 nav a {
     text-decoration: none;
     color: #2c3e50;
     font-weight: bold;
-    padding: 10px 15px; /* Adds internal space so hover area is clear */
+    padding: 10px 15px;
     display: inline-block;
-    transition: 0.3s;
+    transition: color 0.3s, background-color 0.3s;
 }
 
-/* Hover effect fix: ensure it doesn't overlap neighbors */
 nav a:hover {
     color: #3498db;
-    background-color: rgba(52, 152, 219, 0.1); /* Subtle background instead of big box */
+    background-color: rgba(52, 152, 219, 0.1);
     border-radius: 4px;
 }
 
-/* --- THE TOGGLE BUTTON (Always Visible) --- */
+/* Menu Toggle Button */
 #menu-toggle {
-    display: block !important; /* Always visible per marking scheme */
+    display: block;
     padding: 10px 15px;
     background-color: #2c3e50;
-    color: white;
+    color: #ffffff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -79,7 +82,7 @@ main {
 
 /* Q1: Home Page Hero Banner */
 .hero-banner {
-    background-image: url('images/hero_banner.jpg'); 
+    background-image: url("images/hero_banner.jpg");
     background-size: cover;
     background-position: center;
     height: 350px;
@@ -87,11 +90,11 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: white;
+    color: #ffffff;
     text-align: center;
 }
 
-/* Q3a & Q3b: Shop Grid */
+/* Q3a and Q3b: Shop Grid */
 .product-grid {
     display: flex;
     flex-wrap: wrap;
@@ -100,19 +103,19 @@ main {
 }
 
 .product {
-    border: 1px solid #ddd;
+    border: 1px solid #dddddd;
     padding: 15px;
     text-align: center;
-    background: #f9f9f9;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
-    width: 250px; /* Fixed width for better grid alignment */
+    background-color: #f9f9f9;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    width: 250px;
 }
 
-/* Q3d: Hover effect on product images */
+/* Q3d: Hover Effect on Product Images */
 .product img {
     width: 100%;
     height: 200px;
-    object-fit: contain; /* Prevents stretching */
+    object-fit: contain;
     transition: transform 0.4s, filter 0.4s;
     border-radius: 4px;
 }
@@ -129,33 +132,116 @@ main {
     cursor: pointer;
     border: none;
     background-color: #2c3e50;
-    color: white;
+    color: #ffffff;
     border-radius: 4px;
 }
 
-/* Q3f: Hidden info text */
+.product button:hover {
+    background-color: #3498db;
+}
+
+/* Q3f: Hidden Product Information */
 .info-text {
     display: none;
-    background: #eef;
+    background-color: #eeeeff;
     padding: 10px;
     margin-top: 10px;
     font-size: 0.85em;
     border-radius: 4px;
 }
 
-/* Contact Form Styling */
+/* Used by JavaScript to display product information */
+.info-text.is-visible {
+    display: block;
+}
+
+/* Contact Form Container */
 .contact-container {
     max-width: 600px;
     margin: 0 auto;
 }
 
-input, textarea {
+.contact-container h1 {
+    text-align: center;
+    color: #2c3e50;
+}
+
+.contact-container > p {
+    text-align: center;
+    line-height: 1.6;
+    margin-bottom: 30px;
+}
+
+/* Contact Form Labels */
+#contact-form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* Contact Form Fields */
+input,
+textarea {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
-    border: 1px solid #ccc;
+    border: 1px solid #cccccc;
     border-radius: 4px;
     box-sizing: border-box;
+    font-family: Verdana, sans-serif;
+    font-size: 1rem;
+}
+
+textarea {
+    resize: vertical;
+}
+
+/* Field Focus Effect */
+input:focus,
+textarea:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 4px rgba(52, 152, 219, 0.4);
+}
+
+/* Added by jQuery when a field is empty */
+.form-input.is-invalid {
+    border: 2px solid #e74c3c;
+    background-color: #fff6f5;
+}
+
+/* Contact Form Submit Button */
+#contact-form button[type="submit"] {
+    padding: 10px 18px;
+    background-color: #2c3e50;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: Verdana, sans-serif;
+    font-weight: bold;
+}
+
+#contact-form button[type="submit"]:hover {
+    background-color: #3498db;
+}
+
+/* Contact Form Error Message */
+.error-msg {
+    display: none;
+    color: #e74c3c;
+    font-weight: bold;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #e74c3c;
+    border-radius: 4px;
+    background-color: #fff6f5;
+}
+
+/* Added by jQuery when the form is invalid */
+.error-msg.is-visible {
+    display: block;
 }
 
 /* Footer */
@@ -163,17 +249,35 @@ footer {
     text-align: center;
     padding: 30px;
     background-color: #2c3e50;
-    color: white;
+    color: #ffffff;
     margin-top: 40px;
 }
 
-/* --- RESPONSIVE ADJUSTMENTS --- */
+/* Responsive Adjustments */
 @media (max-width: 600px) {
-    .product {
-        width: 100%; /* Stack products on very small screens */
+    header {
+        flex-wrap: wrap;
     }
+
     nav {
         width: 100%;
-        right: 0;
+        flex-direction: column;
+        gap: 5px;
+        margin-top: 15px;
+    }
+
+    nav a {
+        width: 100%;
+        text-align: center;
+        box-sizing: border-box;
+    }
+
+    .product {
+        width: 100%;
+    }
+
+    .contact-container {
+        width: 100%;
     }
 }
+```
