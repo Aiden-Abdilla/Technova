@@ -1,8 +1,9 @@
+```javascript
 /* --- TechNova Electronics - Final Submission Script --- */
 
 /**
  * 1. ADD TO CART FUNCTION (Requirement Q3e)
- * Displays a simple alert when a user adds an item to their cart.
+ * Displays an alert when a user adds a product to the cart.
  */
 function addToCart() {
     alert("Product was successfully added to your cart!");
@@ -10,70 +11,156 @@ function addToCart() {
 
 /**
  * 2. PRODUCT INFO TOGGLE (Requirement Q3f)
- * Standard JavaScript to show or hide the detailed description of products.
- * Used for the "More Info" buttons on the Home and Shop pages.
+ * Shows or hides the selected product description.
+ * The visual styling is controlled through the .is-visible CSS class.
  */
 function showInfo(id) {
-    var x = document.getElementById(id);
-    if (x.style.display === "block") {
-        x.style.display = "none";
-    } else {
-        x.style.display = "block";
+    const infoBox = document.getElementById(id);
+
+    if (infoBox) {
+        infoBox.classList.toggle("is-visible");
     }
 }
 
 /**
  * 3. JQUERY FUNCTIONS
- * All interactive jQuery logic is contained within the document ready function.
+ * All jQuery functionality runs after the page has loaded.
  */
-$(document).ready(function() {
-    
-    // --- NAVIGATION MENU TOGGLE ---
-    // Listens for a click on the 'Menu' button and slides the nav open/shut.
-    // Ensure your HTML button has id="menu-toggle" and nav has id="main-nav".
-    $("#menu-toggle").click(function() {
-        $("#main-nav").stop().slideToggle(400);
+$(document).ready(function () {
+
+    /* Navigation Menu Toggle */
+    $("#menu-toggle").on("click", function () {
+        $("#main-nav").toggleClass("is-open");
+
+        const menuIsOpen = $("#main-nav").hasClass("is-open");
+
+        $(this).attr("aria-expanded", menuIsOpen);
     });
 
-    // --- DESKTOP RESIZE REPAIR ---
-    // If the user resizes the window back to desktop size, 
-    // this ensures the navigation menu is forced back to visible.
-    $(window).resize(function() {
-        if ($(window).width() >= 600) {
-            $("#main-nav").removeAttr("style"); 
+    /* Reset the navigation menu when the browser is resized */
+    $(window).on("resize", function () {
+        if ($(window).width() > 600) {
+            $("#main-nav").removeClass("is-open");
+            $("#menu-toggle").attr("aria-expanded", "false");
         }
     });
 
-    // --- CONTACT FORM VALIDATION & CLEAN MAILTO ---
-    // Validates inputs and prepares a professional email body.
-    $("#contact-form").submit(function(event) {
-        var isValid = true;
-        
-        // Loop through all inputs with the class .form-input to check for empty values
-        $(this).find(".form-input").each(function() {
-            if ($(this).val().trim() === "") {
-                isValid = false;
-                $(this).css("border", "2px solid #e74c3c"); // Highlight empty fields in red
+    /* Contact Form Validation */
+    $("#contact-form").on("submit", function (event) {
+        let formIsValid = true;
+
+        const userName = $("#user-name").val().trim();
+        const userEmail = $("#user-email").val().trim();
+        const messageContent = $("#user-message").val().trim();
+
+        /*
+         * Check every field that uses the .form-input class.
+         * Empty fields receive the .is-invalid class.
+         */
+        $(this).find(".form-input").each(function () {
+            const fieldValue = $(this).val().trim();
+
+            if (fieldValue === "") {
+                $(this).addClass("is-invalid");
+                formIsValid = false;
             } else {
-                $(this).css("border", "1px solid #ccc"); // Reset border for filled fields
+                $(this).removeClass("is-invalid");
             }
         });
 
-        if (!isValid) {
-            // Stop form from opening the email client if validation fails
-            event.preventDefault(); 
-            alert("Please fill in all fields before sending.");
-        } else {
-            // Build the 'Mailto' string dynamically for a cleaner email experience
-            var userName = $("#user-name").val();
-            var messageContent = $("#user-message").val();
-            
-            var cleanMailto = "mailto:info@abdilla.net" +
-                              "?subject=" + encodeURIComponent("Customer Inquiry: " + userName) +
-                              "&body=" + encodeURIComponent(messageContent);
-            
-            // Set the form action to our custom mailto link right before submission
-            $(this).attr("action", cleanMailto);
+        /*
+         * Check that the email address has a basic valid format.
+         */
+        if (userEmail !== "" && !isValidEmail(userEmail)) {
+            $("#user-email").addClass("is-invalid");
+            formIsValid = false;
+        }
+
+        if (!formIsValid) {
+            /*
+             * Prevent the email application from opening when the
+             * form contains missing or invalid information.
+             */
+            event.preventDefault();
+
+            $("#form-error")
+                .text("Please complete all fields and enter a valid email address.")
+                .addClass("is-visible");
+
+            return;
+        }
+
+        /*
+         * Hide the error message when validation is successful.
+         */
+        $("#form-error").removeClass("is-visible");
+
+        /*
+         * Create the mailto link using the submitted form information.
+         */
+        const emailBody =
+            "Name: " + userName +
+            "\nEmail: " + userEmail +
+            "\n\nMessage:\n" + messageContent;
+
+        const cleanMailto =
+            "mailto:info@abdilla.net" +
+            "?subject=" +
+            encodeURIComponent("Customer Inquiry: " + userName) +
+            "&body=" +
+            encodeURIComponent(emailBody);
+
+        /*
+         * Update the form action immediately before submission.
+         */
+        $(this).attr("action", cleanMailto);
+    });
+
+    /*
+     * Remove error styling while the user corrects a field.
+     */
+    $(".form-input").on("input", function () {
+        const fieldValue = $(this).val().trim();
+
+        if (fieldValue !== "") {
+            $(this).removeClass("is-invalid");
+        }
+
+        /*
+         * Apply email validation while the email field is edited.
+         */
+        if ($(this).attr("id") === "user-email") {
+            if (fieldValue !== "" && !isValidEmail(fieldValue)) {
+                $(this).addClass("is-invalid");
+            }
+        }
+
+        /*
+         * Hide the general error message once all fields contain
+         * information and the email address is valid.
+         */
+        const nameIsValid = $("#user-name").val().trim() !== "";
+        const emailValue = $("#user-email").val().trim();
+        const emailIsValid =
+            emailValue !== "" && isValidEmail(emailValue);
+        const messageIsValid =
+            $("#user-message").val().trim() !== "";
+
+        if (nameIsValid && emailIsValid && messageIsValid) {
+            $("#form-error").removeClass("is-visible");
         }
     });
 });
+
+/**
+ * Checks whether an email address follows a basic valid format.
+ *
+ * @param {string} email - The email address entered by the user.
+ * @returns {boolean} True when the email format is valid.
+ */
+function isValidEmail(email) {
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    return emailPattern.test(email);
+}
+```
