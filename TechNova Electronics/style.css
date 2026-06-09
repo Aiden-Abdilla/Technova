@@ -1,14 +1,13 @@
-```css
-/* Q3c: Apply Verdana font instead of default */
+/* Q3c: Apply Verdana font instead of the browser default */
 body {
     font-family: Verdana, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #ffffff;
-    color: #333;
+    color: #333333;
 }
 
-/* Q2b: Navigation Menu and Header */
+/* Q2b: Navigation menu and header */
 header {
     border-bottom: 2px solid #2c3e50;
     padding: 15px 5%;
@@ -19,7 +18,7 @@ header {
     position: relative;
 }
 
-/* Logo Styling */
+/* Logo styling */
 .logo {
     border: 2px solid #000000;
     padding: 5px;
@@ -32,7 +31,7 @@ header {
     display: block;
 }
 
-/* Navigation Menu */
+/* Navigation menu */
 nav {
     display: none;
     flex-direction: row;
@@ -40,7 +39,7 @@ nav {
     align-items: center;
 }
 
-/* Added and removed by jQuery */
+/* Added and removed by JavaScript */
 nav.is-open {
     display: flex;
 }
@@ -51,7 +50,9 @@ nav a {
     font-weight: bold;
     padding: 10px 15px;
     display: inline-block;
-    transition: color 0.3s, background-color 0.3s;
+    transition:
+        color 0.3s,
+        background-color 0.3s;
 }
 
 nav a:hover {
@@ -60,7 +61,7 @@ nav a:hover {
     border-radius: 4px;
 }
 
-/* Menu Toggle Button */
+/* Menu toggle button */
 #menu-toggle {
     display: block;
     padding: 10px 15px;
@@ -69,6 +70,7 @@ nav a:hover {
     border: none;
     border-radius: 4px;
     cursor: pointer;
+    font-family: Verdana, sans-serif;
     font-weight: bold;
 }
 
@@ -76,16 +78,22 @@ nav a:hover {
     background-color: #3498db;
 }
 
+#menu-toggle:focus {
+    outline: 3px solid rgba(52, 152, 219, 0.4);
+    outline-offset: 2px;
+}
+
+/* Main page content */
 main {
     padding: 20px;
 }
 
-/* Q1: Home Page Hero Banner */
+/* Q1: Home page hero banner */
 .hero-banner {
     background-image: url("images/hero_banner.jpg");
     background-size: cover;
     background-position: center;
-    height: 350px;
+    min-height: 350px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -94,7 +102,7 @@ main {
     text-align: center;
 }
 
-/* Q3a and Q3b: Shop Grid */
+/* Q3a and Q3b: Shop grid */
 .product-grid {
     display: flex;
     flex-wrap: wrap;
@@ -111,12 +119,14 @@ main {
     width: 250px;
 }
 
-/* Q3d: Hover Effect on Product Images */
+/* Q3d: Hover effect on product images */
 .product img {
     width: 100%;
     height: 200px;
     object-fit: contain;
-    transition: transform 0.4s, filter 0.4s;
+    transition:
+        transform 0.4s,
+        filter 0.4s;
     border-radius: 4px;
 }
 
@@ -125,7 +135,7 @@ main {
     transform: scale(1.02);
 }
 
-/* Shop Buttons */
+/* Shop buttons */
 .product button {
     margin-top: 10px;
     padding: 8px 12px;
@@ -134,13 +144,14 @@ main {
     background-color: #2c3e50;
     color: #ffffff;
     border-radius: 4px;
+    font-family: Verdana, sans-serif;
 }
 
 .product button:hover {
     background-color: #3498db;
 }
 
-/* Q3f: Hidden Product Information */
+/* Q3f: Hidden product information */
 .info-text {
     display: none;
     background-color: #eeeeff;
@@ -155,7 +166,7 @@ main {
     display: block;
 }
 
-/* Contact Form Container */
+/* Contact form container */
 .contact-container {
     max-width: 600px;
     margin: 0 auto;
@@ -172,7 +183,7 @@ main {
     margin-bottom: 30px;
 }
 
-/* Contact Form Labels */
+/* Contact form labels */
 #contact-form label {
     display: block;
     margin-bottom: 6px;
@@ -180,7 +191,7 @@ main {
     color: #2c3e50;
 }
 
-/* Contact Form Fields */
+/* Contact form fields */
 input,
 textarea {
     width: 100%;
@@ -197,7 +208,7 @@ textarea {
     resize: vertical;
 }
 
-/* Field Focus Effect */
+/* Field focus effect */
 input:focus,
 textarea:focus {
     border-color: #3498db;
@@ -205,13 +216,13 @@ textarea:focus {
     box-shadow: 0 0 4px rgba(52, 152, 219, 0.4);
 }
 
-/* Added by jQuery when a field is empty */
+/* Added by JavaScript when a field is invalid */
 .form-input.is-invalid {
     border: 2px solid #e74c3c;
     background-color: #fff6f5;
 }
 
-/* Contact Form Submit Button */
+/* Contact form submit button */
 #contact-form button[type="submit"] {
     padding: 10px 18px;
     background-color: #2c3e50;
@@ -227,7 +238,7 @@ textarea:focus {
     background-color: #3498db;
 }
 
-/* Contact Form Error Message */
+/* Contact form error message */
 .error-msg {
     display: none;
     color: #e74c3c;
@@ -239,7 +250,7 @@ textarea:focus {
     background-color: #fff6f5;
 }
 
-/* Added by jQuery when the form is invalid */
+/* Added by JavaScript when the form is invalid */
 .error-msg.is-visible {
     display: block;
 }
@@ -253,7 +264,7 @@ footer {
     margin-top: 40px;
 }
 
-/* Responsive Adjustments */
+/* Mobile layout */
 @media (max-width: 600px) {
     header {
         flex-wrap: wrap;
@@ -266,6 +277,10 @@ footer {
         margin-top: 15px;
     }
 
+    nav.is-open {
+        display: flex;
+    }
+
     nav a {
         width: 100%;
         text-align: center;
@@ -274,10 +289,17 @@ footer {
 
     .product {
         width: 100%;
+        box-sizing: border-box;
     }
 
     .contact-container {
         width: 100%;
     }
 }
-```
+
+/* Desktop navigation remains hidden until the menu button is pressed */
+@media (min-width: 601px) {
+    nav.is-open {
+        display: flex;
+    }
+}
