@@ -1,18 +1,15 @@
-```javascript
-/* --- TechNova Electronics - Final Submission Script --- */
+/* --- TechNova Electronics Script --- */
 
-/**
- * 1. ADD TO CART FUNCTION (Requirement Q3e)
- * Displays an alert when a user adds a product to the cart.
+/*
+ * Adds a product to the cart.
+ * Currently displays a confirmation alert.
  */
 function addToCart() {
     alert("Product was successfully added to your cart!");
 }
 
-/**
- * 2. PRODUCT INFO TOGGLE (Requirement Q3f)
- * Shows or hides the selected product description.
- * The visual styling is controlled through the .is-visible CSS class.
+/*
+ * Shows or hides a selected product description.
  */
 function showInfo(id) {
     const infoBox = document.getElementById(id);
@@ -22,30 +19,57 @@ function showInfo(id) {
     }
 }
 
-/**
- * 3. JQUERY FUNCTIONS
- * All jQuery functionality runs after the page has loaded.
+/*
+ * Checks whether an email address has a valid format.
+ */
+function isValidEmail(email) {
+    const emailPattern =
+        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
+
+    return emailPattern.test(email);
+}
+
+/*
+ * Runs after the page and jQuery have loaded.
  */
 $(document).ready(function () {
+    const menuButton = $("#menu-toggle");
+    const mainNavigation = $("#main-nav");
 
-    /* Navigation Menu Toggle */
-    $("#menu-toggle").on("click", function () {
-        $("#main-nav").toggleClass("is-open");
+    /*
+     * Opens and closes the navigation menu.
+     */
+    menuButton.on("click", function () {
+        mainNavigation.toggleClass("is-open");
 
-        const menuIsOpen = $("#main-nav").hasClass("is-open");
+        const menuIsOpen = mainNavigation.hasClass("is-open");
 
         $(this).attr("aria-expanded", menuIsOpen);
     });
 
-    /* Reset the navigation menu when the browser is resized */
-    $(window).on("resize", function () {
-        if ($(window).width() > 600) {
-            $("#main-nav").removeClass("is-open");
-            $("#menu-toggle").attr("aria-expanded", "false");
+    /*
+     * Closes the mobile menu when a navigation link is selected.
+     */
+    mainNavigation.find("a").on("click", function () {
+        if ($(window).width() <= 600) {
+            mainNavigation.removeClass("is-open");
+            menuButton.attr("aria-expanded", "false");
         }
     });
 
-    /* Contact Form Validation */
+    /*
+     * Resets the menu when the browser window is resized.
+     */
+    $(window).on("resize", function () {
+        if ($(window).width() > 600) {
+            mainNavigation.removeClass("is-open");
+            menuButton.attr("aria-expanded", "false");
+        }
+    });
+
+    /*
+     * Validates the contact form before it is submitted.
+     */
     $("#contact-form").on("submit", function (event) {
         let formIsValid = true;
 
@@ -54,8 +78,7 @@ $(document).ready(function () {
         const messageContent = $("#user-message").val().trim();
 
         /*
-         * Check every field that uses the .form-input class.
-         * Empty fields receive the .is-invalid class.
+         * Checks that all required fields contain information.
          */
         $(this).find(".form-input").each(function () {
             const fieldValue = $(this).val().trim();
@@ -69,22 +92,17 @@ $(document).ready(function () {
         });
 
         /*
-         * Check that the email contains:
-         * - Text before the @ symbol
-         * - An @ symbol
-         * - A valid domain name
-         * - A domain extension of at least two letters
+         * Checks that the email address has a valid format.
          */
         if (userEmail !== "" && !isValidEmail(userEmail)) {
             $("#user-email").addClass("is-invalid");
             formIsValid = false;
         }
 
+        /*
+         * Stops submission and displays an error when validation fails.
+         */
         if (!formIsValid) {
-            /*
-             * Prevent the email application from opening when the
-             * form contains missing or invalid information.
-             */
             event.preventDefault();
 
             $("#form-error")
@@ -97,14 +115,21 @@ $(document).ready(function () {
             return;
         }
 
-        /* Hide the error message when validation is successful */
+        /*
+         * Hides the error message after successful validation.
+         */
         $("#form-error").removeClass("is-visible");
 
-        /* Create the mailto link using the submitted information */
+        /*
+         * Creates the email content from the submitted information.
+         */
         const emailBody =
-            "Name: " + userName +
-            "\nEmail: " + userEmail +
-            "\n\nMessage:\n" + messageContent;
+            "Name: " +
+            userName +
+            "\nEmail: " +
+            userEmail +
+            "\n\nMessage:\n" +
+            messageContent;
 
         const cleanMailto =
             "mailto:info@abdilla.net" +
@@ -113,11 +138,15 @@ $(document).ready(function () {
             "&body=" +
             encodeURIComponent(emailBody);
 
-        /* Update the form action immediately before submission */
+        /*
+         * Updates the form action before submission.
+         */
         $(this).attr("action", cleanMailto);
     });
 
-    /* Remove error styling while the user corrects a field */
+    /*
+     * Removes validation errors while the user corrects the form.
+     */
     $(".form-input").on("input", function () {
         const fieldValue = $(this).val().trim();
 
@@ -126,46 +155,30 @@ $(document).ready(function () {
         }
 
         /*
-         * Check the email format while the email field is edited.
+         * Validates the email field while it is being edited.
          */
         if ($(this).attr("id") === "user-email") {
             if (fieldValue !== "" && !isValidEmail(fieldValue)) {
                 $(this).addClass("is-invalid");
-            } else if (isValidEmail(fieldValue)) {
+            } else {
                 $(this).removeClass("is-invalid");
             }
         }
 
-        /*
-         * Hide the general error message once every field contains
-         * valid information.
-         */
         const nameIsValid = $("#user-name").val().trim() !== "";
+
         const emailValue = $("#user-email").val().trim();
         const emailIsValid =
             emailValue !== "" && isValidEmail(emailValue);
+
         const messageIsValid =
             $("#user-message").val().trim() !== "";
 
+        /*
+         * Hides the general error after every field becomes valid.
+         */
         if (nameIsValid && emailIsValid && messageIsValid) {
             $("#form-error").removeClass("is-visible");
         }
     });
 });
-
-/**
- * Checks whether an email address contains an @ symbol,
- * a valid domain and a domain extension.
- *
- * Valid examples:
- * name@gmail.com
- * student@mcast.edu.mt
- * support@abdilla.net
- 
-function isValidEmail(email) {
-    const emailPattern =
-        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
-
-    return emailPattern.test(email);
-}
-```
