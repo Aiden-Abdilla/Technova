@@ -1,151 +1,255 @@
 /* TechNova Electronics JavaScript */
 
-document.addEventListener("DOMContentLoaded", function () {
-    const menuButton = document.getElementById("menu-toggle");
-    const mainNavigation = document.getElementById("main-nav");
+$(document).ready(function () {
 
-    /*
-     * Open and close the navigation menu.
-     */
-    if (menuButton && mainNavigation) {
-        menuButton.addEventListener("click", function () {
-            mainNavigation.classList.toggle("is-open");
+    const menuButton = $("#menu-toggle");
+    const mainNavigation = $("#main-nav");
 
-            const menuIsOpen =
-                mainNavigation.classList.contains("is-open");
 
-            menuButton.setAttribute(
-                "aria-expanded",
-                menuIsOpen.toString()
-            );
-        });
-    }
+    /* =====================================
+       NAVIGATION MENU
+       ===================================== */
 
-    /*
-     * Display the required alert when any Buy Now button is pressed.
-     */
-    const buyButtons = document.querySelectorAll(".buy-btn");
+    menuButton.on("click", function () {
+        mainNavigation.toggleClass("is-open");
 
-    buyButtons.forEach(function (button) {
-        button.addEventListener("click", function () {
-            alert("Thank you for shopping with us");
-        });
-    });
+        const menuIsOpen =
+            mainNavigation.hasClass("is-open");
 
-    /*
-     * Show or hide the information underneath a product.
-     */
-    const infoButtons = document.querySelectorAll(".info-btn");
-
-    infoButtons.forEach(function (button) {
-        button.addEventListener("click", function () {
-            const informationId =
-                button.getAttribute("data-info");
-
-            const informationBox =
-                document.getElementById(informationId);
-
-            if (!informationBox) {
-                return;
-            }
-
-            informationBox.classList.toggle("is-visible");
-
-            const informationIsVisible =
-                informationBox.classList.contains("is-visible");
-
-            button.textContent =
-                informationIsVisible
-                    ? "Hide Info"
-                    : "More Info";
-
-            button.setAttribute(
-                "aria-expanded",
-                informationIsVisible.toString()
-            );
-        });
-    });
-
-    /*
-     * Close the navigation menu when a link is pressed
-     * on a small screen.
-     */
-    const navigationLinks =
-        document.querySelectorAll("#main-nav a");
-
-    navigationLinks.forEach(function (link) {
-        link.addEventListener("click", function () {
-            if (
-                window.innerWidth <= 600 &&
-                mainNavigation &&
-                menuButton
-            ) {
-                mainNavigation.classList.remove("is-open");
-
-                menuButton.setAttribute(
-                    "aria-expanded",
-                    "false"
-                );
-            }
-        });
-    });
-
-    /*
-     * Contact form validation.
-     */
-    const contactForm =
-        document.getElementById("contact-form");
-
-    if (contactForm) {
-        contactForm.addEventListener(
-            "submit",
-            function (event) {
-                const nameField =
-                    document.getElementById("user-name");
-
-                const emailField =
-                    document.getElementById("user-email");
-
-                const messageField =
-                    document.getElementById("user-message");
-
-                const formError =
-                    document.getElementById("form-error");
-
-                const nameValue =
-                    nameField
-                        ? nameField.value.trim()
-                        : "";
-
-                const emailValue =
-                    emailField
-                        ? emailField.value.trim()
-                        : "";
-
-                const messageValue =
-                    messageField
-                        ? messageField.value.trim()
-                        : "";
-
-                const emailPattern =
-                    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-                if (
-                    nameValue === "" ||
-                    !emailPattern.test(emailValue) ||
-                    messageValue === ""
-                ) {
-                    event.preventDefault();
-
-                    if (formError) {
-                        formError.textContent =
-                            "Please complete all fields and enter " +
-                            "a valid email address.";
-
-                        formError.classList.add("is-visible");
-                    }
-                }
-            }
+        menuButton.attr(
+            "aria-expanded",
+            menuIsOpen
         );
-    }
+    });
+
+
+    /*
+     * Close the menu after a navigation link is selected
+     * on a screen that is 600px wide or smaller.
+     */
+    mainNavigation.find("a").on("click", function () {
+        if ($(window).width() <= 600) {
+            mainNavigation.removeClass("is-open");
+
+            menuButton.attr(
+                "aria-expanded",
+                "false"
+            );
+        }
+    });
+
+
+    /* =====================================
+       BUY NOW BUTTONS
+       ===================================== */
+
+    $(".buy-btn").on("click", function () {
+        alert("Thank you for shopping with us");
+    });
+
+
+    /* =====================================
+       PRODUCT INFORMATION BUTTONS
+       ===================================== */
+
+    $(".info-btn").on("click", function () {
+        const button = $(this);
+
+        const informationId =
+            button.attr("data-info");
+
+        const informationBox =
+            $("#" + informationId);
+
+        if (informationBox.length === 0) {
+            return;
+        }
+
+        informationBox.toggleClass("is-visible");
+
+        const informationIsVisible =
+            informationBox.hasClass("is-visible");
+
+        button.attr(
+            "aria-expanded",
+            informationIsVisible
+        );
+
+        if (informationIsVisible) {
+            button.text("Hide Info");
+        } else {
+            button.text("More Info");
+        }
+    });
+
+
+    /* =====================================
+       CONTACT FORM VALIDATION
+       ===================================== */
+
+    $("#contact-form").on("submit", function (event) {
+
+        /*
+         * Stop the form temporarily so that all fields
+         * can be checked using jQuery.
+         */
+        event.preventDefault();
+
+        let formIsValid = true;
+
+        const nameValue =
+            $("#user-name").val().trim();
+
+        const emailValue =
+            $("#user-email").val().trim();
+
+        const phoneValue =
+            $("#user-phone").val().trim();
+
+        const messageValue =
+            $("#user-message").val().trim();
+
+
+        /*
+         * Email must contain a valid email structure.
+         */
+        const emailPattern =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+        /*
+         * Phone number may contain:
+         * numbers, spaces, plus signs and hyphens.
+         *
+         * It must contain between 8 and 15 digits.
+         */
+        const phonePattern =
+            /^\+?[0-9\s-]{8,18}$/;
+
+
+        /*
+         * Remove previous validation messages.
+         */
+        $(".form-input").removeClass("is-invalid");
+
+        $(".input-error").text("");
+
+        $("#form-error")
+            .removeClass("is-visible")
+            .text("");
+
+
+        /* Validate full name */
+
+        if (nameValue.length < 2) {
+            $("#user-name").addClass("is-invalid");
+
+            $("#name-error").text(
+                "Please enter your full name."
+            );
+
+            formIsValid = false;
+        }
+
+
+        /* Validate email address */
+
+        if (!emailPattern.test(emailValue)) {
+            $("#user-email").addClass("is-invalid");
+
+            $("#email-error").text(
+                "Please enter a valid email address."
+            );
+
+            formIsValid = false;
+        }
+
+
+        /* Validate contact number */
+
+        if (!phonePattern.test(phoneValue)) {
+            $("#user-phone").addClass("is-invalid");
+
+            $("#phone-error").text(
+                "Please enter a valid contact number."
+            );
+
+            formIsValid = false;
+        }
+
+
+        /* Validate message */
+
+        if (messageValue.length < 10) {
+            $("#user-message").addClass("is-invalid");
+
+            $("#message-error").text(
+                "Your message must contain at least 10 characters."
+            );
+
+            formIsValid = false;
+        }
+
+
+        /*
+         * Display a general error when one or more
+         * inputs are invalid.
+         */
+        if (!formIsValid) {
+            $("#form-error")
+                .text(
+                    "Please correct the highlighted fields."
+                )
+                .addClass("is-visible");
+
+            return;
+        }
+
+
+        /*
+         * Create the email subject and content.
+         */
+        const emailSubject =
+            "TechNova Contact Form - " + nameValue;
+
+        const emailBody =
+            "Full Name: " +
+            nameValue +
+            "\n\nEmail Address: " +
+            emailValue +
+            "\n\nContact Number: " +
+            phoneValue +
+            "\n\nMessage:\n" +
+            messageValue;
+
+
+        /*
+         * Open the user's email application using mailto.
+         */
+        const mailtoLink =
+            "mailto:aabdilla132@gmail.com" +
+            "?subject=" +
+            encodeURIComponent(emailSubject) +
+            "&body=" +
+            encodeURIComponent(emailBody);
+
+        window.location.href = mailtoLink;
+    });
+
+
+    /*
+     * Remove an input's error while the user is
+     * correcting its value.
+     */
+    $(".form-input").on("input", function () {
+        const input = $(this);
+
+        input.removeClass("is-invalid");
+
+        input
+            .closest(".form-group")
+            .find(".input-error")
+            .text("");
+    });
+
 });
