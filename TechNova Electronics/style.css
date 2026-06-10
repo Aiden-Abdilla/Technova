@@ -1,55 +1,43 @@
-/* ==============================
-   GENERAL STYLES
-   ============================== */
-
 body {
-    font-family: Verdana, sans-serif;
     margin: 0;
-    padding: 0;
-    background-color: #ffffff;
-    color: #333333;
+    font-family: Verdana, sans-serif;
+    color: #333;
+    background: #fff;
 }
 
 main {
     padding: 20px;
 }
 
-.section-title {
+.section-title,
+.contact-container h1,
+.contact-container > p {
     text-align: center;
-    margin: 30px 0;
 }
 
-
-/* ==============================
-   HEADER AND NAVIGATION
-   ============================== */
+/* Header */
 
 header {
-    border-bottom: 2px solid #2c3e50;
-    padding: 15px 5%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #ffffff;
-    position: relative;
+    padding: 15px 5%;
+    border-bottom: 2px solid #2c3e50;
 }
 
 .logo {
-    border: 2px solid #000000;
+    border: 2px solid #000;
     padding: 5px;
-    display: inline-block;
 }
 
 .logo-img {
-    height: 50px;
-    width: auto;
     display: block;
+    height: 50px;
 }
 
 nav {
     display: none;
-    flex-direction: row;
-    gap: 30px;
+    gap: 25px;
     align-items: center;
 }
 
@@ -58,77 +46,68 @@ nav.is-open {
 }
 
 nav a {
-    text-decoration: none;
+    padding: 10px;
     color: #2c3e50;
     font-weight: bold;
-    padding: 10px 15px;
-    display: inline-block;
-    transition: 0.3s;
+    text-decoration: none;
 }
 
 nav a:hover {
     color: #3498db;
-    background-color: rgba(52, 152, 219, 0.1);
+}
+
+#menu-toggle,
+.product button,
+.submit-btn {
+    border: 0;
     border-radius: 4px;
+    background: #2c3e50;
+    color: #fff;
+    cursor: pointer;
 }
 
 #menu-toggle {
     padding: 10px 15px;
-    background-color: #2c3e50;
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
 }
 
-#menu-toggle:hover {
-    background-color: #3498db;
+#menu-toggle:hover,
+.product button:hover,
+.submit-btn:hover {
+    background: #3498db;
 }
 
-
-/* ==============================
-   HERO BANNER
-   ============================== */
+/* Home banner */
 
 .hero-banner {
-    background-image: url("images/hero_banner.jpg");
-    background-size: cover;
-    background-position: center;
     min-height: 350px;
     padding: 20px;
-    box-sizing: border-box;
-
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-
-    color: #ffffff;
+    box-sizing: border-box;
     text-align: center;
+    color: #fff;
+    background: url("images/hero_banner.jpg") center / cover;
 }
 
-
-/* ==============================
-   PRODUCT GRID
-   ============================== */
+/* Products */
 
 .product-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 20px;
-    justify-content: center;
     max-width: 900px;
-    margin: 0 auto;
+    margin: auto;
+    justify-content: center;
 }
 
 .product {
-    width: 100%;
-    box-sizing: border-box;
-    border: 1px solid #dddddd;
     padding: 15px;
+    box-sizing: border-box;
     text-align: center;
-    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    background: #f9f9f9;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
@@ -137,77 +116,50 @@ nav a:hover {
     height: 200px;
     object-fit: contain;
     border-radius: 4px;
-
-    transition:
-        transform 0.4s,
-        filter 0.4s;
+    transition: 0.3s;
 }
 
 .product img:hover {
-    filter: brightness(70%) grayscale(30%);
     transform: scale(1.02);
-}
-
-.price {
-    font-weight: bold;
-    font-size: 1.1rem;
+    filter: brightness(70%);
 }
 
 .product button {
     margin: 10px 4px 0;
     padding: 9px 14px;
-    cursor: pointer;
-    border: none;
-    background-color: #2c3e50;
-    color: #ffffff;
-    border-radius: 4px;
 }
 
-.product button:hover {
-    background-color: #3498db;
+.price {
+    font-weight: bold;
 }
-
-
-/* ==============================
-   PRODUCT INFORMATION
-   ============================== */
 
 .info-text {
     display: none;
-    background-color: #eeeeff;
-    padding: 10px;
     margin-top: 10px;
-    font-size: 0.85em;
-    line-height: 1.5;
+    padding: 10px;
     border-radius: 4px;
+    background: #eef;
+    font-size: 0.85rem;
+    line-height: 1.5;
 }
 
 .info-text.is-visible {
     display: block;
 }
 
-
-/* ==============================
-   CONTACT FORM
-   ============================== */
+/* Contact form */
 
 .contact-container {
     max-width: 600px;
-    margin: 0 auto;
-}
-
-.contact-container h1,
-.contact-container > p {
-    text-align: center;
+    margin: auto;
 }
 
 #contact-form {
     margin-top: 25px;
     padding: 25px;
-    border: 1px solid #dddddd;
-    background-color: #f9f9f9;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
     border-radius: 6px;
+    background: #f9f9f9;
 }
 
 .form-group {
@@ -218,17 +170,15 @@ nav a:hover {
     display: block;
     margin-bottom: 7px;
     font-weight: bold;
-    color: #2c3e50;
 }
 
 .form-input {
     width: 100%;
     padding: 11px;
-    border: 1px solid #cccccc;
-    border-radius: 4px;
     box-sizing: border-box;
-    font-family: Verdana, sans-serif;
-    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font: inherit;
 }
 
 textarea.form-input {
@@ -239,12 +189,11 @@ textarea.form-input {
 .form-input:focus {
     outline: none;
     border-color: #3498db;
-    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.15);
 }
 
 .form-input.is-invalid {
     border: 2px solid #c0392b;
-    background-color: #fff6f6;
+    background: #fff6f6;
 }
 
 .input-error {
@@ -260,7 +209,6 @@ textarea.form-input {
     color: #c0392b;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 15px;
 }
 
 #form-error.is-visible {
@@ -270,30 +218,18 @@ textarea.form-input {
 .submit-btn {
     width: 100%;
     padding: 12px;
-    border: none;
-    border-radius: 4px;
-    background-color: #2c3e50;
-    color: #ffffff;
     font-size: 1rem;
     font-weight: bold;
-    cursor: pointer;
 }
 
-.submit-btn:hover {
-    background-color: #3498db;
-}
-
-
-/* ==============================
-   GALLERY
-   ============================== */
+/* Gallery */
 
 .gallery-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 20px;
     max-width: 900px;
-    margin: 0 auto;
+    margin: auto;
 }
 
 .gallery-grid img {
@@ -301,31 +237,19 @@ textarea.form-input {
     height: 250px;
     object-fit: cover;
     border-radius: 4px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.15);
-    transition: transform 0.3s;
 }
 
-.gallery-grid img:hover {
-    transform: scale(1.02);
-}
-
-
-/* ==============================
-   FOOTER
-   ============================== */
+/* Footer */
 
 footer {
-    text-align: center;
-    padding: 30px;
-    background-color: #2c3e50;
-    color: #ffffff;
     margin-top: 40px;
+    padding: 30px;
+    text-align: center;
+    color: #fff;
+    background: #2c3e50;
 }
 
-
-/* ==============================
-   SCREENS ABOVE 600px
-   ============================== */
+/* Desktop */
 
 @media (min-width: 601px) {
     nav {
@@ -336,25 +260,12 @@ footer {
         display: none;
     }
 
-    /*
-     * Shop page:
-     * display three products per row.
-     */
-
     .product-grid {
-        grid-template-columns:
-            repeat(3, minmax(0, 250px));
+        grid-template-columns: repeat(3, minmax(0, 250px));
     }
 
-    /*
-     * Home page:
-     * display two featured products centred.
-     */
-
     .featured-products {
-        grid-template-columns:
-            repeat(2, minmax(0, 250px));
-
+        grid-template-columns: repeat(2, minmax(0, 250px));
         max-width: 520px;
     }
 
@@ -363,10 +274,7 @@ footer {
     }
 }
 
-
-/* ==============================
-   SCREENS 600px AND BELOW
-   ============================== */
+/* Mobile */
 
 @media (max-width: 600px) {
     header {
@@ -377,23 +285,12 @@ footer {
         width: 100%;
         margin-top: 15px;
         flex-direction: column;
-        gap: 5px;
     }
 
     nav a {
         width: 100%;
-        text-align: center;
         box-sizing: border-box;
-    }
-
-    .product-grid,
-    .featured-products,
-    .gallery-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .product {
-        width: 100%;
+        text-align: center;
     }
 
     #contact-form {
