@@ -1,230 +1,151 @@
-/* --- TechNova Electronics Script --- */
+/* TechNova Electronics JavaScript */
 
-
-/*
- * Displays a thank-you alert when a Buy Now button is pressed.
- */
-function buyNow() {
-    alert("Thank you for shopping with us");
-}
-
-
-/*
- * Checks whether an email address has a valid format.
- */
-function isValidEmail(email) {
-    const emailPattern =
-        /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*\.[a-zA-Z]{2,}$/;
-
-    return emailPattern.test(email);
-}
-
-
-/*
- * Runs after the page and jQuery have loaded.
- */
-$(document).ready(function () {
-    const menuButton = $("#menu-toggle");
-    const mainNavigation = $("#main-nav");
-
+document.addEventListener("DOMContentLoaded", function () {
+    const menuButton = document.getElementById("menu-toggle");
+    const mainNavigation = document.getElementById("main-nav");
 
     /*
-     * Opens and closes the navigation menu.
+     * Open and close the navigation menu.
      */
-    menuButton.on("click", function () {
-        mainNavigation.toggleClass("is-open");
+    if (menuButton && mainNavigation) {
+        menuButton.addEventListener("click", function () {
+            mainNavigation.classList.toggle("is-open");
 
-        const menuIsOpen =
-            mainNavigation.hasClass("is-open");
+            const menuIsOpen =
+                mainNavigation.classList.contains("is-open");
 
-        $(this).attr("aria-expanded", menuIsOpen);
-    });
-
-
-    /*
-     * Closes the mobile navigation when a link is pressed.
-     */
-    mainNavigation.find("a").on("click", function () {
-        if ($(window).width() <= 600) {
-            mainNavigation.removeClass("is-open");
-            menuButton.attr("aria-expanded", "false");
-        }
-    });
-
-
-    /*
-     * Resets the menu when the browser window is resized.
-     */
-    $(window).on("resize", function () {
-        if ($(window).width() > 600) {
-            mainNavigation.removeClass("is-open");
-            menuButton.attr("aria-expanded", "false");
-        }
-    });
-
-
-    /*
-     * Displays or hides the selected product information.
-     */
-    $(".info-btn").on("click", function () {
-        const button = $(this);
-        const infoId = button.attr("data-info");
-        const infoBox = $("#" + infoId);
-
-        if (infoBox.length === 0) {
-            console.error(
-                "Product information was not found: " + infoId
+            menuButton.setAttribute(
+                "aria-expanded",
+                menuIsOpen.toString()
             );
-
-            return;
-        }
-
-        infoBox.toggleClass("is-visible");
-
-        const informationIsVisible =
-            infoBox.hasClass("is-visible");
-
-        button.attr(
-            "aria-expanded",
-            informationIsVisible
-        );
-
-        if (informationIsVisible) {
-            button.text("Hide Info");
-        } else {
-            button.text("More Info");
-        }
-    });
-
+        });
+    }
 
     /*
-     * Validates the contact form before submission.
+     * Display the required alert when any Buy Now button is pressed.
      */
-    $("#contact-form").on("submit", function (event) {
-        let formIsValid = true;
+    const buyButtons = document.querySelectorAll(".buy-btn");
 
-        const userName =
-            $("#user-name").val()?.trim() || "";
+    buyButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            alert("Thank you for shopping with us");
+        });
+    });
 
-        const userEmail =
-            $("#user-email").val()?.trim() || "";
+    /*
+     * Show or hide the information underneath a product.
+     */
+    const infoButtons = document.querySelectorAll(".info-btn");
 
-        const messageContent =
-            $("#user-message").val()?.trim() || "";
+    infoButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            const informationId =
+                button.getAttribute("data-info");
 
+            const informationBox =
+                document.getElementById(informationId);
 
-        /*
-         * Checks that all required fields contain information.
-         */
-        $(this).find(".form-input").each(function () {
-            const fieldValue =
-                $(this).val()?.trim() || "";
+            if (!informationBox) {
+                return;
+            }
 
-            if (fieldValue === "") {
-                $(this).addClass("is-invalid");
-                formIsValid = false;
-            } else {
-                $(this).removeClass("is-invalid");
+            informationBox.classList.toggle("is-visible");
+
+            const informationIsVisible =
+                informationBox.classList.contains("is-visible");
+
+            button.textContent =
+                informationIsVisible
+                    ? "Hide Info"
+                    : "More Info";
+
+            button.setAttribute(
+                "aria-expanded",
+                informationIsVisible.toString()
+            );
+        });
+    });
+
+    /*
+     * Close the navigation menu when a link is pressed
+     * on a small screen.
+     */
+    const navigationLinks =
+        document.querySelectorAll("#main-nav a");
+
+    navigationLinks.forEach(function (link) {
+        link.addEventListener("click", function () {
+            if (
+                window.innerWidth <= 600 &&
+                mainNavigation &&
+                menuButton
+            ) {
+                mainNavigation.classList.remove("is-open");
+
+                menuButton.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
             }
         });
-
-
-        /*
-         * Checks the email address format.
-         */
-        if (
-            userEmail !== "" &&
-            !isValidEmail(userEmail)
-        ) {
-            $("#user-email").addClass("is-invalid");
-            formIsValid = false;
-        }
-
-
-        /*
-         * Stops submission when validation fails.
-         */
-        if (!formIsValid) {
-            event.preventDefault();
-
-            $("#form-error")
-                .text(
-                    "Please complete all fields and enter a valid " +
-                    "email address, for example name@example.com."
-                )
-                .addClass("is-visible");
-
-            return;
-        }
-
-        $("#form-error").removeClass("is-visible");
-
-
-        /*
-         * Creates the email content.
-         */
-        const emailBody =
-            "Name: " +
-            userName +
-            "\nEmail: " +
-            userEmail +
-            "\n\nMessage:\n" +
-            messageContent;
-
-        const cleanMailto =
-            "mailto:info@abdilla.net" +
-            "?subject=" +
-            encodeURIComponent(
-                "Customer Inquiry: " + userName
-            ) +
-            "&body=" +
-            encodeURIComponent(emailBody);
-
-        $(this).attr("action", cleanMailto);
     });
-
 
     /*
-     * Removes validation errors while the form is corrected.
+     * Contact form validation.
      */
-    $(".form-input").on("input", function () {
-        const fieldValue =
-            $(this).val()?.trim() || "";
+    const contactForm =
+        document.getElementById("contact-form");
 
-        if (fieldValue !== "") {
-            $(this).removeClass("is-invalid");
-        }
+    if (contactForm) {
+        contactForm.addEventListener(
+            "submit",
+            function (event) {
+                const nameField =
+                    document.getElementById("user-name");
 
-        if ($(this).attr("id") === "user-email") {
-            if (
-                fieldValue !== "" &&
-                !isValidEmail(fieldValue)
-            ) {
-                $(this).addClass("is-invalid");
-            } else {
-                $(this).removeClass("is-invalid");
+                const emailField =
+                    document.getElementById("user-email");
+
+                const messageField =
+                    document.getElementById("user-message");
+
+                const formError =
+                    document.getElementById("form-error");
+
+                const nameValue =
+                    nameField
+                        ? nameField.value.trim()
+                        : "";
+
+                const emailValue =
+                    emailField
+                        ? emailField.value.trim()
+                        : "";
+
+                const messageValue =
+                    messageField
+                        ? messageField.value.trim()
+                        : "";
+
+                const emailPattern =
+                    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+                if (
+                    nameValue === "" ||
+                    !emailPattern.test(emailValue) ||
+                    messageValue === ""
+                ) {
+                    event.preventDefault();
+
+                    if (formError) {
+                        formError.textContent =
+                            "Please complete all fields and enter " +
+                            "a valid email address.";
+
+                        formError.classList.add("is-visible");
+                    }
+                }
             }
-        }
-
-        const nameIsValid =
-            ($("#user-name").val()?.trim() || "") !== "";
-
-        const emailValue =
-            $("#user-email").val()?.trim() || "";
-
-        const emailIsValid =
-            emailValue !== "" &&
-            isValidEmail(emailValue);
-
-        const messageIsValid =
-            ($("#user-message").val()?.trim() || "") !== "";
-
-        if (
-            nameIsValid &&
-            emailIsValid &&
-            messageIsValid
-        ) {
-            $("#form-error").removeClass("is-visible");
-        }
-    });
+        );
+    }
 });
