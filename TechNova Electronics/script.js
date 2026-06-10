@@ -6,9 +6,7 @@ $(document).ready(function () {
     const mainNavigation = $("#main-nav");
 
 
-    /* =====================================
-       NAVIGATION MENU
-       ===================================== */
+    /* Navigation menu */
 
     menuButton.on("click", function () {
         mainNavigation.toggleClass("is-open");
@@ -23,10 +21,6 @@ $(document).ready(function () {
     });
 
 
-    /*
-     * Close the menu after a navigation link is selected
-     * on a screen that is 600px wide or smaller.
-     */
     mainNavigation.find("a").on("click", function () {
         if ($(window).width() <= 600) {
             mainNavigation.removeClass("is-open");
@@ -39,18 +33,14 @@ $(document).ready(function () {
     });
 
 
-    /* =====================================
-       BUY NOW BUTTONS
-       ===================================== */
+    /* Buy Now buttons */
 
     $(".buy-btn").on("click", function () {
         alert("Thank you for shopping with us");
     });
 
 
-    /* =====================================
-       PRODUCT INFORMATION BUTTONS
-       ===================================== */
+    /* Product information buttons */
 
     $(".info-btn").on("click", function () {
         const button = $(this);
@@ -75,24 +65,40 @@ $(document).ready(function () {
             informationIsVisible
         );
 
-        if (informationIsVisible) {
-            button.text("Hide Info");
-        } else {
-            button.text("More Info");
-        }
+        button.text(
+            informationIsVisible
+                ? "Hide Info"
+                : "More Info"
+        );
     });
 
 
-    /* =====================================
-       CONTACT FORM VALIDATION
-       ===================================== */
+    /* Magnific Popup gallery plugin */
+
+    if ($.fn.magnificPopup) {
+        $(".gallery-container").magnificPopup({
+            delegate: "a",
+            type: "image",
+
+            gallery: {
+                enabled: true,
+                navigateByImgClick: true,
+                preload: [0, 1]
+            },
+
+            image: {
+                titleSrc: "title"
+            },
+
+            closeOnContentClick: true,
+            mainClass: "mfp-img-mobile"
+        });
+    }
+
+
+    /* Contact form validation */
 
     $("#contact-form").on("submit", function (event) {
-
-        /*
-         * Stop the form temporarily so that all fields
-         * can be checked using jQuery.
-         */
         event.preventDefault();
 
         let formIsValid = true;
@@ -109,37 +115,20 @@ $(document).ready(function () {
         const messageValue =
             $("#user-message").val().trim();
 
-
-        /*
-         * Email must contain a valid email structure.
-         */
         const emailPattern =
             /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-
-        /*
-         * Phone number may contain:
-         * numbers, spaces, plus signs and hyphens.
-         *
-         * It must contain between 8 and 15 digits.
-         */
         const phonePattern =
             /^\+?[0-9\s-]{8,18}$/;
 
 
-        /*
-         * Remove previous validation messages.
-         */
         $(".form-input").removeClass("is-invalid");
-
         $(".input-error").text("");
 
         $("#form-error")
             .removeClass("is-visible")
             .text("");
 
-
-        /* Validate full name */
 
         if (nameValue.length < 2) {
             $("#user-name").addClass("is-invalid");
@@ -152,8 +141,6 @@ $(document).ready(function () {
         }
 
 
-        /* Validate email address */
-
         if (!emailPattern.test(emailValue)) {
             $("#user-email").addClass("is-invalid");
 
@@ -164,8 +151,6 @@ $(document).ready(function () {
             formIsValid = false;
         }
 
-
-        /* Validate contact number */
 
         if (!phonePattern.test(phoneValue)) {
             $("#user-phone").addClass("is-invalid");
@@ -178,8 +163,6 @@ $(document).ready(function () {
         }
 
 
-        /* Validate message */
-
         if (messageValue.length < 10) {
             $("#user-message").addClass("is-invalid");
 
@@ -191,10 +174,6 @@ $(document).ready(function () {
         }
 
 
-        /*
-         * Display a general error when one or more
-         * inputs are invalid.
-         */
         if (!formIsValid) {
             $("#form-error")
                 .text(
@@ -206,9 +185,6 @@ $(document).ready(function () {
         }
 
 
-        /*
-         * Create the email subject and content.
-         */
         const emailSubject =
             "TechNova Contact Form - " + nameValue;
 
@@ -222,10 +198,6 @@ $(document).ready(function () {
             "\n\nMessage:\n" +
             messageValue;
 
-
-        /*
-         * Open the user's email application using mailto.
-         */
         const mailtoLink =
             "mailto:aabdilla132@gmail.com" +
             "?subject=" +
@@ -237,10 +209,6 @@ $(document).ready(function () {
     });
 
 
-    /*
-     * Remove an input's error while the user is
-     * correcting its value.
-     */
     $(".form-input").on("input", function () {
         const input = $(this);
 
