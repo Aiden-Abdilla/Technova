@@ -1,12 +1,46 @@
 /* --- TechNova Electronics Script --- */
 
+
 /*
- * Adds a product to the cart.
- * Currently displays a confirmation alert.
+ * Displays a confirmation when a product is added to the cart.
  */
 function addToCart() {
     alert("Product was successfully added to your cart!");
 }
+
+
+/*
+ * Opens or closes product information.
+ *
+ * This function supports buttons that use:
+ * onclick="showInfo('info1', this)"
+ */
+function showInfo(infoId, clickedButton) {
+    const infoBox = document.getElementById(infoId);
+
+    if (!infoBox) {
+        console.error("Information box not found: " + infoId);
+        return;
+    }
+
+    const informationIsVisible =
+        infoBox.classList.toggle("is-visible");
+
+    /*
+     * Change the text of the button that was pressed.
+     */
+    if (clickedButton) {
+        clickedButton.textContent = informationIsVisible
+            ? "Hide Info"
+            : "More Info";
+
+        clickedButton.setAttribute(
+            "aria-expanded",
+            informationIsVisible
+        );
+    }
+}
+
 
 /*
  * Checks whether an email address has a valid format.
@@ -18,6 +52,7 @@ function isValidEmail(email) {
     return emailPattern.test(email);
 }
 
+
 /*
  * Runs after the page and jQuery have loaded.
  */
@@ -25,71 +60,71 @@ $(document).ready(function () {
     const menuButton = $("#menu-toggle");
     const mainNavigation = $("#main-nav");
 
+
     /*
      * Opens and closes the navigation menu.
      */
     menuButton.on("click", function () {
-        mainNavigation.toggleClass("is-open");
+        mainNavigation.stop(true, true).slideToggle(400);
 
-        const menuIsOpen = mainNavigation.hasClass("is-open");
+        const menuIsOpen =
+            $(this).attr("aria-expanded") === "true";
 
-        $(this).attr("aria-expanded", menuIsOpen);
+        $(this).attr("aria-expanded", !menuIsOpen);
     });
 
-    /*
-     * Closes the mobile menu when a navigation link is selected.
-     */
-    mainNavigation.find("a").on("click", function () {
-        if ($(window).width() <= 600) {
-            mainNavigation.removeClass("is-open");
-            menuButton.attr("aria-expanded", "false");
-        }
-    });
 
     /*
-     * Resets the menu when the browser window is resized.
+     * Repairs the menu when the viewport is resized.
      */
     $(window).on("resize", function () {
         if ($(window).width() > 600) {
-            mainNavigation.removeClass("is-open");
+            mainNavigation.removeAttr("style");
             menuButton.attr("aria-expanded", "false");
         }
     });
 
+
     /*
-     * Opens and closes the selected product information.
+     * Controls Info buttons that use data-info attributes.
+     *
+     * Example:
+     * <button class="info-btn" data-info="info1">More Info</button>
      */
     $(".info-btn").on("click", function () {
         const button = $(this);
-        const infoId = button.data("info");
+        const infoId = button.attr("data-info");
         const infoBox = $("#" + infoId);
+
+        if (infoBox.length === 0) {
+            console.error("Information box not found: " + infoId);
+            return;
+        }
 
         infoBox.toggleClass("is-visible");
 
-        const infoIsVisible = infoBox.hasClass("is-visible");
+        const informationIsVisible =
+            infoBox.hasClass("is-visible");
 
-        button.attr("aria-expanded", infoIsVisible);
+        button.text(
+            informationIsVisible
+                ? "Hide Info"
+                : "More Info"
+        );
 
-        if (infoIsVisible) {
-            button.text("Hide Info");
-        } else {
-            button.text("Info");
-        }
+        button.attr(
+            "aria-expanded",
+            informationIsVisible
+        );
     });
 
+
     /*
-     * Validates the contact form before it is submitted.
+     * Validates the contact form.
      */
     $("#contact-form").on("submit", function (event) {
         let formIsValid = true;
 
-        const userName = $("#user-name").val().trim();
-        const userEmail = $("#user-email").val().trim();
-        const messageContent = $("#user-message").val().trim();
-
-        /*
-         * Checks that all required fields contain information.
-         */
         $(this).find(".form-input").each(function () {
             const fieldValue = $(this).val().trim();
 
@@ -101,38 +136,37 @@ $(document).ready(function () {
             }
         });
 
-        /*
-         * Checks that the email address has a valid format.
-         */
-        if (userEmail !== "" && !isValidEmail(userEmail)) {
+        const userName =
+            $("#user-name").val()?.trim() || "";
+
+        const userEmail =
+            $("#user-email").val()?.trim() || "";
+
+        const messageContent =
+            $("#user-message").val()?.trim() || "";
+
+        if (
+            userEmail !== "" &&
+            !isValidEmail(userEmail)
+        ) {
             $("#user-email").addClass("is-invalid");
             formIsValid = false;
         }
 
-        /*
-         * Stops submission and displays an error when validation fails.
-         */
         if (!formIsValid) {
             event.preventDefault();
 
             $("#form-error")
                 .text(
-                    "Please complete all fields and enter a valid " +
-                    "email address, for example name@example.com."
+                    "Please complete all fields and enter a valid email address."
                 )
                 .addClass("is-visible");
 
             return;
         }
 
-        /*
-         * Hides the error message after successful validation.
-         */
         $("#form-error").removeClass("is-visible");
 
-        /*
-         * Creates the email content from the submitted information.
-         */
         const emailBody =
             "Name: " +
             userName +
@@ -144,54 +178,22 @@ $(document).ready(function () {
         const cleanMailto =
             "mailto:info@abdilla.net" +
             "?subject=" +
-            encodeURIComponent("Customer Inquiry: " + userName) +
+            encodeURIComponent(
+                "Customer Inquiry: " + userName
+            ) +
             "&body=" +
             encodeURIComponent(emailBody);
 
-        /*
-         * Updates the form action before submission.
-         */
         $(this).attr("action", cleanMailto);
     });
 
+
     /*
-     * Removes validation errors while the user corrects the form.
+     * Removes validation errors while fields are corrected.
      */
     $(".form-input").on("input", function () {
-        const fieldValue = $(this).val().trim();
-
-        if (fieldValue !== "") {
+        if ($(this).val().trim() !== "") {
             $(this).removeClass("is-invalid");
-        }
-
-        /*
-         * Validates the email field while it is being edited.
-         */
-        if ($(this).attr("id") === "user-email") {
-            if (fieldValue !== "" && !isValidEmail(fieldValue)) {
-                $(this).addClass("is-invalid");
-            } else {
-                $(this).removeClass("is-invalid");
-            }
-        }
-
-        const nameIsValid =
-            $("#user-name").val().trim() !== "";
-
-        const emailValue =
-            $("#user-email").val().trim();
-
-        const emailIsValid =
-            emailValue !== "" && isValidEmail(emailValue);
-
-        const messageIsValid =
-            $("#user-message").val().trim() !== "";
-
-        /*
-         * Hides the general error after every field becomes valid.
-         */
-        if (nameIsValid && emailIsValid && messageIsValid) {
-            $("#form-error").removeClass("is-visible");
         }
     });
 });
