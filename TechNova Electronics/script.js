@@ -199,7 +199,7 @@ $(document).ready(function () {
             messageValue;
 
         const mailtoLink =
-            "mailto:aabdilla132@gmail.com" +
+            "mailto:Info@abdilla.net" +
             "?subject=" +
             encodeURIComponent(emailSubject) +
             "&body=" +
