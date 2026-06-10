@@ -9,17 +9,6 @@ function addToCart() {
 }
 
 /*
- * Shows or hides a selected product description.
- */
-function showInfo(id) {
-    const infoBox = document.getElementById(id);
-
-    if (infoBox) {
-        infoBox.classList.toggle("is-visible");
-    }
-}
-
-/*
  * Checks whether an email address has a valid format.
  */
 function isValidEmail(email) {
@@ -68,6 +57,27 @@ $(document).ready(function () {
     });
 
     /*
+     * Opens and closes the selected product information.
+     */
+    $(".info-btn").on("click", function () {
+        const button = $(this);
+        const infoId = button.data("info");
+        const infoBox = $("#" + infoId);
+
+        infoBox.toggleClass("is-visible");
+
+        const infoIsVisible = infoBox.hasClass("is-visible");
+
+        button.attr("aria-expanded", infoIsVisible);
+
+        if (infoIsVisible) {
+            button.text("Hide Info");
+        } else {
+            button.text("Info");
+        }
+    });
+
+    /*
      * Validates the contact form before it is submitted.
      */
     $("#contact-form").on("submit", function (event) {
@@ -107,8 +117,8 @@ $(document).ready(function () {
 
             $("#form-error")
                 .text(
-                    "Please complete all fields and enter a valid email address, " +
-                    "for example name@example.com."
+                    "Please complete all fields and enter a valid " +
+                    "email address, for example name@example.com."
                 )
                 .addClass("is-visible");
 
@@ -165,9 +175,12 @@ $(document).ready(function () {
             }
         }
 
-        const nameIsValid = $("#user-name").val().trim() !== "";
+        const nameIsValid =
+            $("#user-name").val().trim() !== "";
 
-        const emailValue = $("#user-email").val().trim();
+        const emailValue =
+            $("#user-email").val().trim();
+
         const emailIsValid =
             emailValue !== "" && isValidEmail(emailValue);
 
